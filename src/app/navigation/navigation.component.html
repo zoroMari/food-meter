@@ -2,16 +2,20 @@
   <nav class="header">
     <div class="logo">
       <img src="../../assets/logo.png" alt="">
-      <div class="text">
-        <p class="name">FoodMeter</p>
-        <p class="phrase">Food meter matters</p>
-      </div>
+      <a [routerLink]="['/']">
+        <div class="text">
+          <p class="name">FoodMeter</p>
+          <p class="phrase">Food meter matters</p>
+        </div>
+      </a>
     </div>
 
     <mat-nav-list class="menu">
-        <a mat-list-item routerLink="/calculator">Calculator</a>
-        <a mat-list-item>Ingredients</a>
-        <a mat-list-item>About</a>
+        <a mat-list-item [routerLink]="['/calculator']" routerLinkActive="active">
+          Calculator
+        </a>
+        <a mat-list-item [routerLink]="['/ingredients']" routerLinkActive="active">Ingredients</a>
+        <a mat-list-item [routerLink]="['/about']" routerLinkActive="active">About</a>
     </mat-nav-list>
 
   </nav>
