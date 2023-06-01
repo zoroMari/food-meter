@@ -8,6 +8,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { AboutComponent } from './about /about.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { IngredientsComponent } from './ingredients/ingredients.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { IngredientsComponent } from './ingredients/ingredients.component';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

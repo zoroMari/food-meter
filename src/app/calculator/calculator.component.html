@@ -16,14 +16,36 @@
 
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name</th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    <td mat-cell *matCellDef="let element">
+      <div class="nameCell">
+        <p>{{element.name}}</p>
+        <button
+          mat-icon-button
+          color="accent"
+          *ngIf="element.name !== 'TOTAL:'"
+          (click)="handleDelIngr(element)"
+          [matTooltip]="getTooltipInfo(element)"
+          matTooltipPosition="right"
+        >
+          <mat-icon>info</mat-icon>
+        </button>
+      </div>
+    </td>
   </ng-container>
 
-  <ng-container matColumnDef="gramm" class="grammContainer">
-    <th mat-header-cell *matHeaderCellDef>Gramm</th>
+  <ng-container matColumnDef="gram" class="gramContainer">
+    <th mat-header-cell *matHeaderCellDef>Gram</th>
     <td mat-cell *matCellDef="let element">
-      <mat-form-field class="gramm" appearance="outline">
-        <input matInput type="number" value="0">
+      <mat-form-field class="gram" appearance="outline">
+        <input
+          matInput
+          type="number"
+          value="0"
+          [readonly]="element.name === 'TOTAL:'"
+          #gramOfElement="ngModel"
+          [(ngModel)]='element.gram'
+          (change)="handleChangeWeight(element)"
+        >
       </mat-form-field>
     </td>
   </ng-container>
@@ -46,6 +68,20 @@
   <ng-container matColumnDef="fat">
     <th mat-header-cell *matHeaderCellDef> Fat </th>
     <td mat-cell *matCellDef="let element"> {{element.fat}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        color="warn"
+        *ngIf="element.name !== 'TOTAL:'"
+        (click)="handleDelIngr(element)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

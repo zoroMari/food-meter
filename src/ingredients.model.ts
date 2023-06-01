@@ -1,7 +1,7 @@
 
 export interface IIngredient {
   name: string;
-  gramm: number;
+  gram: number;
   ccal: number;
   protein: number;
   carbon: number;

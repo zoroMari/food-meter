@@ -21,12 +21,21 @@
     width: 98%
     margin-top: 32px
 
+    .nameCell
+      display: flex
+      align-items: center
+
+      p
+        margin: 0
+
+      button
+        opacity: 50%
+
     .mat-row:first-of-type
       font-weight: 700
-      // background-color: rgba(255, 215, 64, 0.2)
       background-color: rgba(103, 58, 183, 0.08)
 
-    .mat-column-gramm
+    .mat-column-gram
       word-wrap: break-word !important
       white-space: unset !important
       flex: 0 0 28% !important
@@ -34,12 +43,19 @@
       overflow-wrap: break-word
       word-wrap: break-word
 
-      word-break: break-word
+      // word-break: break-word
+      // -ms-hyphens: auto
+      // -moz-hyphens: auto
+      // -webkit-hyphens: auto
+      // hyphens: auto
 
-      -ms-hyphens: auto
-      -moz-hyphens: auto
-      -webkit-hyphens: auto
-      hyphens: auto
+    .mat-column-delete
+        word-wrap: break-word !important
+        white-space: unset !important
+        flex: 0 0 5% !important
+        width: 5% !important
+        overflow-wrap: break-word
+        word-wrap: break-word
 
     ::ng-deep .mat-form-field-wrapper
       padding: 4px
