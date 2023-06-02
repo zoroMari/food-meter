@@ -8,7 +8,11 @@ import { IngredientsService } from "../ingredients/ingredients.service";
 })
 export class CalculatorService {
   public ingredientsPer100: IIngredient[] = [...this._ingredientsService.ingredients];
-  public ingredients: IIngredient[] = [...this._ingredientsService.ingredients];
+  public ingredients: IIngredient[] = [
+    { name: 'Egg', gram: 100, ccal: 5, protein: 10, carbon: 15, fat: 20 },
+    { name: 'Chicken',  gram: 100, ccal: 12, protein: 20, carbon: 30, fat: 40 },
+    { name: 'Salmon', gram: 100,  ccal: 14, protein: 20, carbon: 32, fat: 50 },
+  ];
   public total = new BehaviorSubject<IIngredient>(
     { name: 'TOTAL:', gram: 0, ccal: 0, protein: 0, carbon: 0, fat: 0 }
   );

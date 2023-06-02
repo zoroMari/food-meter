@@ -1,0 +1,54 @@
+@import '../variables'
+
+
+:host
+  display: flex
+  flex-direction: column
+  align-items: center
+
+  h1
+    @include h1
+
+  h2
+    @include h2
+
+  .buttons
+    button:not(:last-of-type)
+      margin-right: 16px
+
+  table
+    width: 98%
+    margin-top: 32px
+
+    ::ng-deep .mat-column-name
+      width: 240px !important
+
+    ::ng-deep .mat-column-gram
+      width: 80px !important
+
+    ::ng-deep .mat-column-ccal
+    ::ng-deep .mat-column-carbon
+    ::ng-deep .mat-column-protein
+    ::ng-deep .mat-column-fat
+      width: auto !important
+
+    ::ng-deep .mat-column-delete
+      width: 32px !important
+
+    ::ng-deep .mat-column-gram
+      padding-top: 8px !important
+
+    ::ng-deep .mat-form-field-wrapper
+      padding: 4px
+      margin: 2px
+
+      ::ng-deep .mat-form-field-infix
+        width: 100% !important
+        padding: 4px
+        margin: 2px 0px
+
+    .read
+      ::ng-deep .mat-form-field-outline
+        color: transparent
+
+

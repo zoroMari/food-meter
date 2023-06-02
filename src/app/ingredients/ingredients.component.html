@@ -1,1 +1,174 @@
-<p>ingredients works!</p>
+<h1>Ingredients</h1>
+<h2>Here is the list of your popular ingredients</h2>
+
+<div class="buttons">
+  <button mat-raised-button>
+    Create new ingredient
+  </button>
+</div>
+
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="name" class="name">
+    <th mat-header-cell *matHeaderCellDef> Name</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field
+        class="name"
+        appearance="outline"
+        [ngClass]="{ 'read': isEditMode === false}"
+      >
+        <input
+          matInput
+          type="text"
+          [readonly]="isEditMode===false"
+          #nameOfElement="ngModel"
+          [(ngModel)]='element.name'
+        >
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="gram" class="gramContainer">
+    <th mat-header-cell *matHeaderCellDef>Gram</th>
+    <td mat-cell *matCellDef="let element">100</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ccal">
+    <th mat-header-cell *matHeaderCellDef> Ccal </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field
+        class="ccal"
+        appearance="outline"
+        [ngClass]="{ 'read': isEditMode === false}"
+      >
+        <input
+          matInput
+          type="number"
+          value="0"
+          [readonly]="isEditMode===false"
+          #ccalOfElement="ngModel"
+          [(ngModel)]='element.ccal'
+        >
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="protein">
+    <th mat-header-cell *matHeaderCellDef> Protein </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field
+        class="protein"
+        appearance="outline"
+        [ngClass]="{ 'read': isEditMode === false}"
+      >
+        <input
+          matInput
+          type="number"
+          value="0"
+          [readonly]="isEditMode===false"
+          #proteinOfElement="ngModel"
+          [(ngModel)]='element.protein'
+        >
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="carbon">
+    <th mat-header-cell *matHeaderCellDef> Carbon </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field
+        class="carbon"
+        appearance="outline"
+        [ngClass]="{ 'read': isEditMode === false}"
+      >
+        <input
+          matInput
+          type="number"
+          value="0"
+          [readonly]="isEditMode===false"
+          #carbonOfElement="ngModel"
+          [(ngModel)]='element.carbon'
+        >
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="fat">
+    <th mat-header-cell *matHeaderCellDef> Fat </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-form-field
+        class="fat"
+        appearance="outline"
+        [ngClass]="{ 'read': isEditMode === false}"
+      >
+        <input
+          matInput
+          type="number"
+          value="0"
+          [readonly]="isEditMode===false"
+          #fatOfElement="ngModel"
+          [(ngModel)]='element.fat'
+        >
+      </mat-form-field>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        color="primary"
+        *ngIf="isEditMode!==true"
+        (click)="handleEditIngredient(element)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="save">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        color="primary"
+        *ngIf="isEditMode===true"
+        (click)="handleSaveChanges(element)"
+      >
+        <mat-icon>done</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cancel">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        color="warn"
+        *ngIf="isEditMode===true"
+        (click)="handleCancelChanges()"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let element">
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="handleDeleteIngredient(element)"
+        *ngIf="isEditMode!==true"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
