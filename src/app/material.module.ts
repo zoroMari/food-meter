@@ -3,6 +3,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -18,6 +20,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatSelectModule,
   ],
   exports: [
     MatButtonModule,
@@ -27,6 +31,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
     MatTooltipModule,
     MatDialogModule,
+    MatCheckboxModule,
+    MatSelectModule,
   ]
 })
 export class MaterialModule {

@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { IIngredient } from "src/app/shared/ingredients.model";
+import { NewIngredientComponent } from "../new-ingredient/new-ingredient.component";
 import { CalculatorService } from "./calculator.service";
 
 @Component({
@@ -13,6 +15,7 @@ export class CalculatorComponent implements OnInit {
 
   constructor(
     private _calculatorService: CalculatorService,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +32,16 @@ export class CalculatorComponent implements OnInit {
         this.dataSource = [this._calculatorService.total.getValue(), ...this._calculatorService.ingredients];
       }
     )
+  }
+
+  public openDialog() {
+    const dialogRef = this.dialog.open(NewIngredientComponent, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   public handleChangeWeight(ingredient: IIngredient): void {

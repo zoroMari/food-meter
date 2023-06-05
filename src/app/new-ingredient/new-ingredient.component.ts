@@ -1,9 +1,12 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { Component, EventEmitter, Inject, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { IIngredient } from "src/app/shared/ingredients.model";
 import { IngredientsService } from "../ingredients/ingredients.service";
-import { validateNo } from "../shared/help-function";
+
+interface IData extends IIngredient {
+  saveIngr: boolean;
+}
 
 @Component({
   selector: 'app-new-ingredient',
@@ -16,7 +19,7 @@ export class NewIngredientComponent implements OnInit {
   constructor(
     private _ingredientsService: IngredientsService,
     public dialogRef: MatDialogRef<NewIngredientComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IIngredient,
+    @Inject(MAT_DIALOG_DATA) public data: IData,
   ) {}
 
     ngOnInit(): void {
@@ -28,7 +31,10 @@ export class NewIngredientComponent implements OnInit {
   }
 
   public handleSaveIngredient(): void {
+
+    console.log(' >>>', this.form.value);
     this._ingredientsService.addIngredient(this.form.value);
+    // console.log(' this._ingredientsService >>>',  this._ingredientsService.ingredients);
   }
 
   private _formInitialization() {
@@ -39,6 +45,7 @@ export class NewIngredientComponent implements OnInit {
       protein: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
       carbon: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
       fat: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
+      addIngr: new FormControl('true', [Validators.required]),
     })
   }
 }
