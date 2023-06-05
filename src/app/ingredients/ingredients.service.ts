@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { IIngredient } from "src/ingredients.model";
+import { IIngredient } from "src/app/shared/ingredients.model";
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +22,11 @@ export class IngredientsService {
 
   public editIngredient(ingr: IIngredient) {
     this.isEditMode.next(true);
+  }
+
+  public addIngredient(ingr: IIngredient) {
+    this._ingredients.push(ingr);
+    this.ingredientsChange.next(this.ingredients);
   }
 
   public saveChangedIngredient(newIngr: IIngredient) {

@@ -8,10 +8,3 @@ export interface IIngredient {
   fat: number;
 }
 
-export class IngredientModel {
-  constructor(
-    public name: string,
-  ) {
-
-  }
-}

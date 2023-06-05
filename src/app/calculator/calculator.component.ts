@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { IIngredient } from "src/ingredients.model";
+import { IIngredient } from "src/app/shared/ingredients.model";
 import { CalculatorService } from "./calculator.service";
 
 @Component({

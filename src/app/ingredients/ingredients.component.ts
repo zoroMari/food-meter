@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IIngredient } from 'src/ingredients.model';
+import { MatDialog } from '@angular/material/dialog';
+import { IIngredient } from 'src/app/shared/ingredients.model';
+import { NewIngredientComponent } from '../new-ingredient/new-ingredient.component';
+import { validateNo } from '../shared/help-function';
 import { IngredientsService } from './ingredients.service';
 
 @Component({
@@ -10,12 +13,14 @@ import { IngredientsService } from './ingredients.service';
 export class IngredientsComponent implements OnInit {
   public displayedColumns: string[] = ['name', 'gram', 'ccal', 'protein', 'carbon', 'fat', 'edit', 'delete', 'save', 'cancel'];
   public dataSource!: IIngredient[];
-
+  public animal!: string;
+  public name!: string;
 
   public isEditMode!: boolean;
 
   constructor(
     private _ingrService: IngredientsService,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit(): void {
@@ -28,20 +33,34 @@ export class IngredientsComponent implements OnInit {
     )
   }
 
-  handleEditIngredient(ingr: IIngredient) {
+  public handleEditIngredient(ingr: IIngredient): void {
     this._ingrService.editIngredient(ingr);
   }
 
-  handleSaveChanges(ingr: IIngredient) {
+  public handleSaveChanges(ingr: IIngredient): void {
     this._ingrService.saveChangedIngredient(ingr);
   }
 
-  handleCancelChanges() {
+  public handleCancelChanges(): void {
     this._ingrService.cancelChangedIngredient();
   }
 
-  handleDeleteIngredient(ingr: IIngredient) {
+  public handleDeleteIngredient(ingr: IIngredient): void {
     this._ingrService.deleteIngredient(ingr);
+  }
+
+  public handleValidateNumber(event: any) {
+    validateNo(event);
+  }
+
+  public openDialog(): void {
+    const dialogRef = this.dialog.open(NewIngredientComponent, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }
