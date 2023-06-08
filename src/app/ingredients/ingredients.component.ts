@@ -56,7 +56,7 @@ export class IngredientsComponent implements OnInit {
   public openDialog(): void {
     const dialogRef = this.dialog.open(NewIngredientComponent, {
       width: '250px',
-      data: {checkbox: false },
+      data: { checkbox: false, calculator: false },
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -39,10 +39,11 @@ export class CalculatorComponent implements OnInit {
   public openDialog() {
     const dialogRef = this.dialog.open(NewIngredientComponent, {
       width: '250px',
-      data: { checkbox: true }
+      data: { checkbox: true, calculator: true }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log('this. >>>', this._ingredientService.ingredients);
     });
   }
 

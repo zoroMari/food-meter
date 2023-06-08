@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from "@angular/core";
 import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { IIngredient } from "src/app/shared/ingredients.model";
+import { CalculatorService } from "../calculator/calculator.service";
 import { IngredientsService } from "../ingredients/ingredients.service";
 
 interface IData extends IIngredient {
@@ -18,8 +19,9 @@ export class NewIngredientComponent implements OnInit {
 
   constructor(
     private _ingredientsService: IngredientsService,
+    private _calculatorService: CalculatorService,
     public dialogRef: MatDialogRef<NewIngredientComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {checkbox: boolean},
+    @Inject(MAT_DIALOG_DATA) public data: { checkbox: boolean, calculator: boolean },
   ) {}
 
     ngOnInit(): void {
@@ -31,8 +33,10 @@ export class NewIngredientComponent implements OnInit {
   }
 
   public handleSaveIngredient(): void {
+    if (this.data.calculator) this._calculatorService.addIngredient(this.form.value);
+    
     if (!this.form.controls['addIngr'].value) return;
-    else  this._ingredientsService.addIngredient(this.form.value);
+    else this._ingredientsService.addIngredient(this.form.value);
   }
 
   private _formInitialization() {
