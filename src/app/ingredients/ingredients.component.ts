@@ -56,10 +56,10 @@ export class IngredientsComponent implements OnInit {
   public openDialog(): void {
     const dialogRef = this.dialog.open(NewIngredientComponent, {
       width: '250px',
+      data: {checkbox: false },
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

@@ -19,7 +19,7 @@ export class NewIngredientComponent implements OnInit {
   constructor(
     private _ingredientsService: IngredientsService,
     public dialogRef: MatDialogRef<NewIngredientComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IData,
+    @Inject(MAT_DIALOG_DATA) public data: {checkbox: boolean},
   ) {}
 
     ngOnInit(): void {
@@ -31,10 +31,8 @@ export class NewIngredientComponent implements OnInit {
   }
 
   public handleSaveIngredient(): void {
-
-    console.log(' >>>', this.form.value);
-    this._ingredientsService.addIngredient(this.form.value);
-    // console.log(' this._ingredientsService >>>',  this._ingredientsService.ingredients);
+    if (!this.form.controls['addIngr'].value) return;
+    else  this._ingredientsService.addIngredient(this.form.value);
   }
 
   private _formInitialization() {

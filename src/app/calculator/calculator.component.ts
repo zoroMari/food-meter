@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { IIngredient } from "src/app/shared/ingredients.model";
+import { IngredientsService } from "../ingredients/ingredients.service";
 import { NewIngredientComponent } from "../new-ingredient/new-ingredient.component";
 import { CalculatorService } from "./calculator.service";
 
@@ -15,6 +16,7 @@ export class CalculatorComponent implements OnInit {
 
   constructor(
     private _calculatorService: CalculatorService,
+    private _ingredientService: IngredientsService,
     public dialog: MatDialog,
   ) {}
 
@@ -37,10 +39,10 @@ export class CalculatorComponent implements OnInit {
   public openDialog() {
     const dialogRef = this.dialog.open(NewIngredientComponent, {
       width: '250px',
+      data: { checkbox: true }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
