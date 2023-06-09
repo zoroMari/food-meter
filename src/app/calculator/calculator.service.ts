@@ -24,6 +24,12 @@ export class CalculatorService {
     this.changeTotalData();
   }
 
+  public addIngredients(ingrs: IIngredient[]) {
+    ingrs.forEach((item: IIngredient) => this.ingredients.push(item));
+    this.ingredientsChange.next(this.ingredients);
+    this.changeTotalData();
+  }
+
   public changeIngredientData(ingredient: IIngredient) {
     const ind = this.ingredients.findIndex((item) => item.name === ingredient.name);
 
@@ -48,6 +54,12 @@ export class CalculatorService {
     const ind = this.ingredients.findIndex((item) => item.name === ingredient.name);
 
     this.ingredients.splice(ind, 1);
+    this.ingredientsChange.next(this.ingredients);
+    this.changeTotalData();
+  }
+
+  public deleteAllIngr() {
+    this.ingredients = [];
     this.ingredientsChange.next(this.ingredients);
     this.changeTotalData();
   }

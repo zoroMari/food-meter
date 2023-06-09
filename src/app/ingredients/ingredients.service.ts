@@ -16,7 +16,7 @@ export class IngredientsService {
   public ingredientsChange = new BehaviorSubject<IIngredient[]>(this.ingredients);
   public isEditMode = new BehaviorSubject<boolean>(false);
 
-  public get ingredients() {
+  public get ingredients(): IIngredient[] {
     return JSON.parse(JSON.stringify(this._ingredients))
   }
 
@@ -36,6 +36,7 @@ export class IngredientsService {
     if (ind === -1) return;
     else {
       this._ingredients[ind] = newIngr;
+      console.log('test >>>', 'test');
       this.ingredientsChange.next(this.ingredients);
     }
   }

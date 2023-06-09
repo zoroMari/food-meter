@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { IIngredient } from 'src/app/shared/ingredients.model';
-import { NewIngredientComponent } from '../new-ingredient/new-ingredient.component';
+import { NewIngredientComponent } from '../shared/components/new-ingredient/new-ingredient.component';
 import { validateNo } from '../shared/help-function';
 import { IngredientsService } from './ingredients.service';
 

@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Select ingredients</h1>
+
+<div mat-dialog-content>
+
+  <form action="" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Ingredients</mat-label>
+      <mat-select formControlName="ingredients" multiple>
+        <mat-option *ngFor="let ingredients of ingrList" [value]="ingredients">{{ ingredients.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="accent" (click)="handleSaveIngredient()">Select</button>
+</div>

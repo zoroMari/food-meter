@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { MaterialModule } from "../material.module";
-import { NewIngredientsModule } from "../new-ingredient/new-ingredient.component.module";
+import { NewIngredientsModule } from "../shared/components/new-ingredient/new-ingredient.module";
 import { IngredientsComponent } from "./ingredients.component";
 
 @NgModule({
@@ -14,8 +14,8 @@ import { IngredientsComponent } from "./ingredients.component";
     CommonModule,
     MaterialModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: IngredientsComponent }]),
     NewIngredientsModule,
+    RouterModule.forChild([{ path: '', component: IngredientsComponent }]),
   ],
   exports: [
     RouterModule,

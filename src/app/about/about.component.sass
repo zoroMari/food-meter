@@ -18,7 +18,23 @@
     justify-content: center
 
     img
-      width: 160px
+      width: 120px
+
+    .feature
+      display: flex
+      flex-direction: column
+      align-items: center
+
+      .feature-text
+        text-align: center
+        @include feature
+        max-width: 240px
 
     .feature:not(:last-of-type)
       margin-right: 48px
+
+  .summary
+    padding: 24px
+    color: $color-primary
+    border: 1px $color-accent solid
+    border-radius: 16px
