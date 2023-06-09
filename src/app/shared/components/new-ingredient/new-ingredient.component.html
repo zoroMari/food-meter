@@ -1,0 +1,77 @@
+<h1 mat-dialog-title>New ingredient</h1>
+<p>Add information <b [ngStyle]="{'color': '#673ab7'}">per 100 gram</b>></p>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Gram</mat-label>
+      <input
+        matInput
+        value="100"
+        readonly="true"
+        [disabled]="true"
+        formControlName="gram"
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Ccal</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="ccal"
+      >
+    <mat-error>Only numbers</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Protein</mat-label>
+      <input
+        type="number"
+        min="0"
+        matInput
+        formControlName="protein"
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Carbon</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="carbon"
+      >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fat</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        formControlName="fat"
+      >
+    </mat-form-field>
+
+    <mat-checkbox *ngIf="data.checkbox" formControlName="addIngr">Add to My ingredients</mat-checkbox>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button
+    mat-button
+    type="button"
+    [mat-dialog-close]="data"
+    cdkFocusInitial
+    (click)="handleSaveIngredient()"
+    [disabled]="!form.valid"
+  >
+    Save
+  </button>
+</div>

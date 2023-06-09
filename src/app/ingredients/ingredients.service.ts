@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { IIngredient } from "src/ingredients.model";
+import { IIngredient } from "src/app/shared/ingredients.model";
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +16,17 @@ export class IngredientsService {
   public ingredientsChange = new BehaviorSubject<IIngredient[]>(this.ingredients);
   public isEditMode = new BehaviorSubject<boolean>(false);
 
-  public get ingredients() {
+  public get ingredients(): IIngredient[] {
     return JSON.parse(JSON.stringify(this._ingredients))
   }
 
   public editIngredient(ingr: IIngredient) {
     this.isEditMode.next(true);
+  }
+
+  public addIngredient(ingr: IIngredient) {
+    this._ingredients.push(ingr);
+    this.ingredientsChange.next(this.ingredients);
   }
 
   public saveChangedIngredient(newIngr: IIngredient) {
@@ -31,6 +36,7 @@ export class IngredientsService {
     if (ind === -1) return;
     else {
       this._ingredients[ind] = newIngr;
+      console.log('test >>>', 'test');
       this.ingredientsChange.next(this.ingredients);
     }
   }

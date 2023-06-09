@@ -2,7 +2,7 @@
 <h2>Here is the list of your popular ingredients</h2>
 
 <div class="buttons">
-  <button mat-raised-button>
+  <button mat-raised-button (click)="openDialog()">
     Create new ingredient
   </button>
 </div>
@@ -48,6 +48,7 @@
           [readonly]="isEditMode===false"
           #ccalOfElement="ngModel"
           [(ngModel)]='element.ccal'
+          (keypress)="handleValidateNumber($event)"
         >
       </mat-form-field>
     </td>
@@ -60,6 +61,7 @@
         class="protein"
         appearance="outline"
         [ngClass]="{ 'read': isEditMode === false}"
+        (keypress)="handleValidateNumber($event)"
       >
         <input
           matInput
@@ -68,6 +70,7 @@
           [readonly]="isEditMode===false"
           #proteinOfElement="ngModel"
           [(ngModel)]='element.protein'
+          (keypress)="handleValidateNumber($event)"
         >
       </mat-form-field>
     </td>
@@ -88,6 +91,7 @@
           [readonly]="isEditMode===false"
           #carbonOfElement="ngModel"
           [(ngModel)]='element.carbon'
+          (keypress)="handleValidateNumber($event)"
         >
       </mat-form-field>
     </td>
@@ -108,6 +112,7 @@
           [readonly]="isEditMode===false"
           #fatOfElement="ngModel"
           [(ngModel)]='element.fat'
+          (keypress)="handleValidateNumber($event)"
         >
       </mat-form-field>
     </td>
@@ -121,6 +126,7 @@
         color="primary"
         *ngIf="isEditMode!==true"
         (click)="handleEditIngredient(element)"
+        (keypress)="handleValidateNumber($event)"
       >
         <mat-icon>edit</mat-icon>
       </button>
