@@ -25,9 +25,9 @@ export class SelectIngredientComponent implements OnInit {
   ngOnInit(): void {
     this.ingrList = this._ingredientsService.ingredients;
 
-    this._ingredientsService.ingredientsChange.subscribe(
-      (value: IIngredient[]) => value
-    )
+    // this._ingredientsService.isIngredientChange.subscribe(
+    //   (value: IIngredient[]) => value
+    // )
   }
 
   public onNoClick(): void {

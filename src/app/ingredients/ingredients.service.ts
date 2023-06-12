@@ -1,55 +1,71 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subject } from "rxjs";
 import { IIngredient } from "src/app/shared/ingredients.model";
+import { IngredientStoreService } from "./ingredients.store.service";
 
 @Injectable({
   providedIn: 'root',
 })
 export class IngredientsService {
-  private _ingredients: IIngredient[] = [
-    { name: 'Egg', gram: 100, ccal: 5, protein: 10, carbon: 15, fat: 20 },
-    { name: 'Chicken',  gram: 100, ccal: 12, protein: 20, carbon: 30, fat: 40 },
-    { name: 'Salmon', gram: 100,  ccal: 14, protein: 20, carbon: 32, fat: 50 },
-    { name: 'Bread',  gram: 100, ccal: 8, protein: 14, carbon: 30, fat: 60 },
-  ];
+  private _ingredients: IIngredient[] = [];
 
-  public ingredientsChange = new BehaviorSubject<IIngredient[]>(this.ingredients);
+  public isIngredientChange = new Subject<IIngredient[]>();
   public isEditMode = new BehaviorSubject<boolean>(false);
+  public isEditIngr = new Subject<IIngredient | null>();
 
-  public get ingredients(): IIngredient[] {
-    return JSON.parse(JSON.stringify(this._ingredients))
+  constructor(
+  ) {}
+
+  get ingredients() {
+    return JSON.parse(JSON.stringify(this._ingredients));
+  }
+
+  public setIngredients(ingr: IIngredient[]) {
+    this._ingredients = ingr;
+    this.isIngredientChange.next(this.ingredients);
   }
 
   public editIngredient(ingr: IIngredient) {
     this.isEditMode.next(true);
+    this.isEditIngr.next(ingr);
   }
 
   public addIngredient(ingr: IIngredient) {
-    this._ingredients.push(ingr);
-    this.ingredientsChange.next(this.ingredients);
+    const ingrForSave = { ...ingr, id: this._randomString() } ;
+
+    this._ingredients.push(ingrForSave);
+    this.isIngredientChange.next(this.ingredients);
   }
 
   public saveChangedIngredient(newIngr: IIngredient) {
     this.isEditMode.next(false);
-    const ind = this._ingredients.findIndex((item) => item.name === newIngr.name);
+    this.isEditIngr.next(null);
+    const id = this._ingredients.findIndex((item) => item.id === newIngr.id);
 
-    if (ind === -1) return;
+    if (id === -1) return;
     else {
-      this._ingredients[ind] = newIngr;
-      console.log('test >>>', 'test');
-      this.ingredientsChange.next(this.ingredients);
+      this._ingredients[id] = newIngr;
+      this.isIngredientChange.next(this.ingredients);
     }
   }
 
   public cancelChangedIngredient() {
     this.isEditMode.next(false);
-    this.ingredientsChange.next(this.ingredients);
+    this.isEditIngr.next(null);
+    this.isIngredientChange.next(this.ingredients);
   }
 
   public deleteIngredient(ingr: IIngredient) {
-    const ind = this._ingredients.findIndex((item) => item.name === ingr.name);
+    const id = this._ingredients.findIndex((item) => item.id === ingr.id);
 
-    this._ingredients.splice(ind, 1);
-    this.ingredientsChange.next(this.ingredients);
+    this._ingredients.splice(id, 1);
+    this.isIngredientChange.next(this.ingredients);
+  }
+
+  private _randomString() {
+    return String(
+      Date.now().toString(32) +
+        Math.random().toString(16)
+    ).replace(/\./g, '')
   }
 }

@@ -13,9 +13,14 @@
     @include h2
 
   .buttons
+    button
+      color: $color-primary
+
     button:not(:last-of-type)
       margin-right: 16px
 
+    .clearTable
+      color: $color-warn
 
   table
     width: 98%
@@ -72,5 +77,3 @@
         width: 100% !important
         padding: 4px
         margin: 2px 0px
-
-

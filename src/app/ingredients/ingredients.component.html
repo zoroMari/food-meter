@@ -15,12 +15,12 @@
       <mat-form-field
         class="name"
         appearance="outline"
-        [ngClass]="{ 'read': isEditMode === false}"
+        [ngClass]="{ 'read': element.id !== editIngrId }"
       >
         <input
           matInput
           type="text"
-          [readonly]="isEditMode===false"
+          [readonly]="element.id !== editIngrId"
           #nameOfElement="ngModel"
           [(ngModel)]='element.name'
         >
@@ -39,13 +39,13 @@
       <mat-form-field
         class="ccal"
         appearance="outline"
-        [ngClass]="{ 'read': isEditMode === false}"
+        [ngClass]="{ 'read': element.id !== editIngrId }"
       >
         <input
           matInput
           type="number"
           value="0"
-          [readonly]="isEditMode===false"
+          [readonly]="element.id !== editIngrId"
           #ccalOfElement="ngModel"
           [(ngModel)]='element.ccal'
           (keypress)="handleValidateNumber($event)"
@@ -60,14 +60,14 @@
       <mat-form-field
         class="protein"
         appearance="outline"
-        [ngClass]="{ 'read': isEditMode === false}"
+        [ngClass]="{ 'read': element.id !== editIngrId }"
         (keypress)="handleValidateNumber($event)"
       >
         <input
           matInput
           type="number"
           value="0"
-          [readonly]="isEditMode===false"
+          [readonly]="element.id !== editIngrId"
           #proteinOfElement="ngModel"
           [(ngModel)]='element.protein'
           (keypress)="handleValidateNumber($event)"
@@ -82,13 +82,13 @@
       <mat-form-field
         class="carbon"
         appearance="outline"
-        [ngClass]="{ 'read': isEditMode === false}"
+        [ngClass]="{ 'read': element.id !== editIngrId }"
       >
         <input
           matInput
           type="number"
           value="0"
-          [readonly]="isEditMode===false"
+          [readonly]="element.id !== editIngrId"
           #carbonOfElement="ngModel"
           [(ngModel)]='element.carbon'
           (keypress)="handleValidateNumber($event)"
@@ -103,13 +103,13 @@
       <mat-form-field
         class="fat"
         appearance="outline"
-        [ngClass]="{ 'read': isEditMode === false}"
+        [ngClass]="{ 'read': element.id !== editIngrId }"
       >
         <input
           matInput
           type="number"
           value="0"
-          [readonly]="isEditMode===false"
+          [readonly]="element.id !== editIngrId"
           #fatOfElement="ngModel"
           [(ngModel)]='element.fat'
           (keypress)="handleValidateNumber($event)"
@@ -124,7 +124,7 @@
       <button
         mat-icon-button
         color="primary"
-        *ngIf="isEditMode!==true"
+        *ngIf="element.id !== editIngrId && isEditMode!==true"
         (click)="handleEditIngredient(element)"
         (keypress)="handleValidateNumber($event)"
       >
@@ -139,7 +139,7 @@
       <button
         mat-icon-button
         color="primary"
-        *ngIf="isEditMode===true"
+        *ngIf="element.id === editIngrId"
         (click)="handleSaveChanges(element)"
       >
         <mat-icon>done</mat-icon>
@@ -153,7 +153,7 @@
       <button
         mat-icon-button
         color="warn"
-        *ngIf="isEditMode===true"
+        *ngIf="element.id === editIngrId"
         (click)="handleCancelChanges()"
       >
         <mat-icon>cancel</mat-icon>
@@ -168,7 +168,7 @@
         mat-icon-button
         color="warn"
         (click)="handleDeleteIngredient(element)"
-        *ngIf="isEditMode!==true"
+        *ngIf="element.id !== editIngrId && isEditMode!==true"
       >
         <mat-icon>delete</mat-icon>
       </button>
@@ -178,3 +178,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+

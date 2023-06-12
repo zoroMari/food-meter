@@ -7,6 +7,7 @@ import { MaterialModule } from './material.module';
 import { NavigationComponent } from './navigation/navigation.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MaterialModule,
     FormsModule,
     AppRoutingModule,
