@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
 import { IIngredient } from "src/app/shared/ingredients.model";
-import { IngredientStoreService } from "./ingredients.store.service";
+import { CalculatorService } from "../calculator/calculator.service";
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,7 @@ export class IngredientsService {
   public isEditIngr = new Subject<IIngredient | null>();
 
   constructor(
+    private _calculatorService: CalculatorService,
   ) {}
 
   get ingredients() {
@@ -46,6 +47,7 @@ export class IngredientsService {
     else {
       this._ingredients[id] = newIngr;
       this.isIngredientChange.next(this.ingredients);
+      this._calculatorService.updateIngredients(this.ingredients, this._calculatorService.ingredients);
     }
   }
 

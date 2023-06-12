@@ -37,9 +37,14 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
     this._sub.add(this._calculatorService.ingredientsChange.subscribe(
       (value) => {
-        this.dataSource = [this._calculatorService.total.getValue(), ...this._calculatorService.ingredients];
+        this.dataSource = [this._calculatorService.total.getValue(), ...value];
       }
     ))
+  }
+
+  ngOnDestroy(): void {
+    // this._calculatorService.deleteAllIngr();
+    // this._sub.unsubscribe();
   }
 
   public openDialogNewIngr() {
@@ -90,10 +95,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   `
   }
 
-  ngOnDestroy(): void {
-    this._calculatorService.deleteAllIngr();
-    this._sub.unsubscribe();
-  }
+
 }
 
 
