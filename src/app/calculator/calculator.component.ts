@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
-import { IIngredient } from "src/app/shared/ingredients.model";
-import { IngredientsService } from "../ingredients/ingredients.service";
+import { IIngredient, IIngredientTotal } from "src/app/shared/ingredients.model";
+import { IngredientStoreService } from "../ingredients/ingredients.store.service";
 import { NewIngredientComponent } from "../shared/components/new-ingredient/new-ingredient.component";
 import { SelectIngredientComponent } from "../shared/components/select-ingredient/select-ingredient.componet";
 import { CalculatorService } from "./calculator.service";
@@ -14,16 +14,19 @@ import { CalculatorService } from "./calculator.service";
 })
 export class CalculatorComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['name', 'gram', 'ccal', 'protein', 'carbon', 'fat', 'delete'];
-  public dataSource!: IIngredient[];
+  public dataSource!: IIngredient[] | IIngredientTotal[];
   private _sub!: Subscription;
 
   constructor(
     private _calculatorService: CalculatorService,
-    private _ingredientService: IngredientsService,
+    private _ingredientStoreService: IngredientStoreService,
     public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
+    this._ingredientStoreService.fetchIngredients().subscribe(
+      (value) => {}
+    );
     this._calculatorService.changeTotalData();
 
     this._sub = this._calculatorService.total.subscribe(
@@ -65,6 +68,10 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
   public handleDelIngr(ing: IIngredient): void {
     this._calculatorService.deleteIngr(ing);
+  }
+
+  public handleClearCalculator(): void {
+    this._calculatorService.deleteAllIngr();
   }
 
   public getTooltipInfo(ingr: IIngredient): string {

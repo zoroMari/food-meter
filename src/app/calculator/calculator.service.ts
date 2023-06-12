@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
-import { IIngredient } from "src/app/shared/ingredients.model";
+import { IIngredient, IIngredientTotal } from "src/app/shared/ingredients.model";
 import { IngredientsService } from "../ingredients/ingredients.service";
 
 @Injectable({
@@ -9,7 +9,7 @@ import { IngredientsService } from "../ingredients/ingredients.service";
 export class CalculatorService {
   public ingredientsPer100: IIngredient[] = [...this._ingredientsService.ingredients];
   public ingredients: IIngredient[] = [];
-  public total = new BehaviorSubject<IIngredient>(
+  public total = new BehaviorSubject<IIngredientTotal>(
     { name: 'TOTAL:', gram: 0, ccal: 0, protein: 0, carbon: 0, fat: 0 }
   );
   public ingredientsChange = new Subject<IIngredient[]>();
@@ -42,6 +42,7 @@ export class CalculatorService {
         protein: Math.round(ingredient.protein * ingredient.gram / 100),
         carbon: Math.round(ingredient.carbon * ingredient.gram / 100),
         fat: Math.round(ingredient.fat * ingredient.gram / 100),
+        id: ingredient.id
       }
       this.ingredients[ind] = newIngr;
       this.ingredientsChange.next(this.ingredients);
