@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, tap } from "rxjs";
+import { CalculatorService } from "../calculator/calculator.service";
 import { IIngredient } from "../shared/ingredients.model";
 import { IngredientsService } from "./ingredients.service";
 
@@ -9,6 +10,7 @@ export class IngredientStoreService {
   constructor(
     private _http: HttpClient,
     private _ingredientsService: IngredientsService,
+    private _calculatorService: CalculatorService,
   ) {}
 
   public fetchIngredients() {
@@ -25,6 +27,7 @@ export class IngredientStoreService {
       tap((ingr) => {
         if (ingr) {
           this._ingredientsService.setIngredients(ingr);
+          this._calculatorService.ingredientsPer100 = ingr;
         }
         else return;
       })
