@@ -37,6 +37,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
 
     this._sub.add(this._calculatorService.ingredientsChange.subscribe(
       (value) => {
+        this._calculatorService.ingredients = value;
         this.dataSource = [this._calculatorService.total.getValue(), ...value];
       }
     ))

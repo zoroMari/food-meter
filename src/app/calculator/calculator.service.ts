@@ -29,18 +29,17 @@ export class CalculatorService {
     this.changeTotalData();
   }
 
-  public updateIngredients(newIngr: IIngredient[], ingr: IIngredient[]) {
-    if (this.ingredients.length < 1) return;
+  public updateIngredients(newIngr: IIngredient[], ingrs: IIngredient[]) {
+    if (ingrs.length < 1) return;
     else {
-      for (let i = 0; i < this.ingredients.length; i++) {
-        for (let j = 0; j < newIngr.length; j++) {
-          if (this.ingredients[i].id === newIngr[j].id) {
-            this.ingredients[i] = newIngr[j];
-          } else continue;
-        }
-      }
+      const hashMap: { [id: string]: IIngredient } = newIngr.reduce((acc, cur) => {
+        return { ...acc, [cur.id]: cur }
+      }, {})
+      ingrs = ingrs.map((item) => {
+        return hashMap[item.id] ?? item
+      })
+      this.ingredientsChange.next(ingrs);
     }
-    this.ingredientsChange.next(this.ingredients);
   }
 
   public changeIngredientData(ingredient: IIngredient) {
