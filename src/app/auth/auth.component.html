@@ -1,0 +1,27 @@
+<h1>{{ isLogin ? 'Log in' : 'Sign up' }} </h1>
+<form [formGroup]="form">
+  <mat-form-field appearance="outline">
+    <mat-label>E-mail</mat-label>
+    <input
+      type="email"
+      matInput
+      formControlName="email"
+    >
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input
+      type="password"
+      min="8"
+      matInput
+      formControlName="password"
+    >
+    <mat-error>Min length 8 characters</mat-error>
+  </mat-form-field>
+
+  <p class="accMessage" *ngIf="isLogin">Have no account? Go to <a class="link" (click)="handleToSignUp()">Sign Up</a></p>
+  <p class="accMessage" *ngIf="!isLogin">Have the account? Go to <a class="link" (click)="handleToLogIn()">Log In</a></p>
+
+  <button mat-raised-button color="primary">{{ isLogin ? 'Log in' : 'Sign up' }}</button>
+</form>
