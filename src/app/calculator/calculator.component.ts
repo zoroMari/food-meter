@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 import { IIngredient, IIngredientTotal } from "src/app/shared/ingredients.model";
+import { AuthService } from "../auth/auth.service";
+import { User } from "../auth/user.model";
 import { IngredientStoreService } from "../ingredients/ingredients.store.service";
 import { NewIngredientComponent } from "../shared/components/new-ingredient/new-ingredient.component";
 import { SelectIngredientComponent } from "../shared/components/select-ingredient/select-ingredient.componet";
@@ -15,43 +17,49 @@ import { CalculatorService } from "./calculator.service";
 export class CalculatorComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['name', 'gram', 'ccal', 'protein', 'carbon', 'fat', 'delete'];
   public dataSource!: IIngredient[] | IIngredientTotal[];
+  public isAuthorized!: boolean;
   private _sub!: Subscription;
 
   constructor(
     private _calculatorService: CalculatorService,
     private _ingredientStoreService: IngredientStoreService,
+    private _AuthService: AuthService,
     public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
-    this._ingredientStoreService.fetchIngredients().subscribe(
+    this._sub = this._ingredientStoreService.fetchIngredients().subscribe(
       (value) => {}
     );
     this._calculatorService.changeTotalData();
 
-    this._sub = this._calculatorService.total.subscribe(
+    this._calculatorService.total.subscribe(
       (value) => {
         this.dataSource = [value, ...this._calculatorService.ingredients];
       }
-    )
+    );
 
-    this._sub.add(this._calculatorService.ingredientsChange.subscribe(
+    this._sub.add(this._AuthService.user.subscribe(
+      (user: User) => this.isAuthorized = !!user
+    ));
+
+   this._calculatorService.ingredientsChange.subscribe(
       (value) => {
         this._calculatorService.ingredients = value;
         this.dataSource = [this._calculatorService.total.getValue(), ...value];
       }
-    ))
+    );
   }
 
   ngOnDestroy(): void {
     // this._calculatorService.deleteAllIngr();
-    // this._sub.unsubscribe();
+    this._sub.unsubscribe();
   }
 
   public openDialogNewIngr() {
     const dialogRef = this.dialog.open(NewIngredientComponent, {
       width: '250px',
-      data: { checkbox: true, calculator: true }
+      data: { checkbox: true, calculator: true, isAuth: this.isAuthorized }
     });
 
     dialogRef.afterClosed().subscribe(result => {

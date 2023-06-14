@@ -24,7 +24,7 @@ export class NewIngredientComponent implements OnInit {
     private _ingrStoreService: IngredientStoreService,
     private _calculatorService: CalculatorService,
     public dialogRef: MatDialogRef<NewIngredientComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { checkbox: boolean, calculator: boolean },
+    @Inject(MAT_DIALOG_DATA) public data: { checkbox: boolean, calculator: boolean, isAuth: boolean },
   ) {}
 
     ngOnInit(): void {

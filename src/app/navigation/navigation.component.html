@@ -14,9 +14,18 @@
       <a mat-list-item [routerLink]="['/calculator']" routerLinkActive="active">
         Calculator
       </a>
-      <a mat-list-item [routerLink]="['/ingredients']" routerLinkActive="active">My&nbsp;ingredients</a>
-      <a mat-list-item [routerLink]="['/about']" routerLinkActive="active">About</a>
-      <a mat-list-item [routerLink]="['/login']" routerLinkActive="active">Log&nbsp;in</a>
+      <a mat-list-item [routerLink]="['/ingredients']" routerLinkActive="active" *ngIf="isAuthorized">
+        My&nbsp;ingredients
+      </a>
+      <a mat-list-item [routerLink]="['/about']" routerLinkActive="active">
+        About
+      </a>
+      <a mat-list-item *ngIf="!isAuthorized" [routerLink]="['/auth']" routerLinkActive="active">
+        Log&nbsp;in
+      </a>
+      <a mat-list-item *ngIf="isAuthorized" (click)="handleLogout()" routerLinkActive="active">
+        Log&nbsp;out
+      </a>
     </mat-nav-list>
 
   </nav>
