@@ -51,10 +51,10 @@ export class CalculatorService {
       const newIngr: IIngredient = {
         name: ingredient.name,
         gram: ingredient.gram,
-        ccal: Math.round(ingredient.ccal * ingredient.gram / 100),
-        protein: Math.round(ingredient.protein * ingredient.gram / 100),
-        carbon: Math.round(ingredient.carbon * ingredient.gram / 100),
-        fat: Math.round(ingredient.fat * ingredient.gram / 100),
+        ccal: +(ingredient.ccal * ingredient.gram / 100).toFixed(2),
+        protein: +(ingredient.protein * ingredient.gram / 100).toFixed(2),
+        carbon: +(ingredient.carbon * ingredient.gram / 100).toFixed(2),
+        fat: +(ingredient.fat * ingredient.gram / 100).toFixed(2),
         id: ingredient.id,
         authorID: ingredient.authorID,
       }
@@ -84,11 +84,11 @@ export class CalculatorService {
       this.ingredients.reduce((acc, cur) => {
         return {
           name: 'TOTAL:',
-          gram: +acc.gram + +cur.gram,
-          ccal: acc.ccal + cur.ccal,
-          protein: acc.protein + cur.protein,
-          carbon: acc.carbon + cur.carbon,
-          fat: acc.fat + cur.fat,
+          gram: +(+acc.gram + +cur.gram).toFixed(2),
+          ccal: +(acc.ccal + cur.ccal).toFixed(2),
+          protein: +(acc.protein + cur.protein).toFixed(2),
+          carbon: +(acc.carbon + cur.carbon).toFixed(2),
+          fat: +(acc.fat + cur.fat).toFixed(2),
         }
       }, { name: 'TOTAL:', gram: 0, ccal: 0, protein: 0, carbon: 0, fat: 0 })
     )

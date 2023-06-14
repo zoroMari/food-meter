@@ -24,6 +24,7 @@
         matInput
         type="number"
         min="0"
+        step="0.1"
         formControlName="ccal"
       >
     <mat-error>Only numbers</mat-error>
@@ -35,8 +36,10 @@
         type="number"
         min="0"
         matInput
+        step="0.1"
         formControlName="protein"
       >
+      <mat-error>Only numbers</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -45,8 +48,10 @@
         matInput
         type="number"
         min="0"
+        step="0.1"
         formControlName="carbon"
       >
+      <mat-error>Only numbers</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -55,8 +60,10 @@
         matInput
         type="number"
         min="0"
+        step="0.1"
         formControlName="fat"
       >
+      <mat-error>Only numbers</mat-error>
     </mat-form-field>
 
     <mat-checkbox *ngIf="data.checkbox && data.isAuth" [formControl]="addIngr">Add to My ingredients</mat-checkbox>
