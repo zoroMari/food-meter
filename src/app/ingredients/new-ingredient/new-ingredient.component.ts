@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IngredientStoreService } from "src/app/ingredients/ingredients.store.service";
-import { IIngredient } from "src/app/shared/ingredients.model";
-import { CalculatorService } from "../../../calculator/calculator.service";
-import { IngredientsService } from "../../../ingredients/ingredients.service";
+import { IIngredient } from "src/app/ingredients/ingredients.model";
+import { CalculatorService } from "../../calculator/calculator.service";
+import { IngredientsService } from "../ingredients.service";
 
 interface IData extends IIngredient {
   saveIngr: boolean;
@@ -39,7 +39,6 @@ export class NewIngredientComponent implements OnInit {
     if (this.data.calculator) this._calculatorService.addIngredient(this.form.value);
 
     if (!this.addIngr.value) return;
-    // if (!this.form.controls['addIngr'].value) return;
     else {
       this._ingrService.addIngredient(this.form.value);
       this._ingrStoreService.storeIngredients();
@@ -54,7 +53,6 @@ export class NewIngredientComponent implements OnInit {
       protein: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
       carbon: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
       fat: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
-      // addIngr: new FormControl('true', [Validators.required]),
     })
   }
 }

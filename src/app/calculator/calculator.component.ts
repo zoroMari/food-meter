@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
-import { IIngredient, IIngredientTotal } from "src/app/shared/ingredients.model";
+import { IIngredient, IIngredientTotal } from "src/app/ingredients/ingredients.model";
 import { AuthService } from "../auth/auth.service";
 import { User } from "../auth/user.model";
 import { IngredientStoreService } from "../ingredients/ingredients.store.service";
-import { NewIngredientComponent } from "../shared/components/new-ingredient/new-ingredient.component";
-import { SelectIngredientComponent } from "../shared/components/select-ingredient/select-ingredient.componet";
+import { NewIngredientComponent } from "../ingredients/new-ingredient/new-ingredient.component";
+import { SelectIngredientComponent } from "../ingredients/select-ingredient/select-ingredient.componet";
 import { CalculatorService } from "./calculator.service";
 
 @Component({
@@ -28,31 +28,31 @@ export class CalculatorComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this._sub = this._ingredientStoreService.fetchIngredients().subscribe(
-      (value) => {}
-    );
-    this._calculatorService.changeTotalData();
-
-    this._calculatorService.total.subscribe(
-      (value) => {
-        this.dataSource = [value, ...this._calculatorService.ingredients];
-      }
-    );
-
-    this._sub.add(this._AuthService.user.subscribe(
+    this._sub = this._AuthService.user.subscribe(
       (user: User) => this.isAuthorized = !!user
+    );
+
+    this._sub.add(this._ingredientStoreService.fetchIngredients().subscribe(
+      (value) => {}
     ));
 
-   this._calculatorService.ingredientsChange.subscribe(
+    this._calculatorService.ingredientsChange.subscribe(
       (value) => {
         this._calculatorService.ingredients = value;
         this.dataSource = [this._calculatorService.total.getValue(), ...value];
       }
     );
+
+    this._calculatorService.changeTotalData();
+
+    this._sub.add(this._calculatorService.total.subscribe(
+      (value) => {
+        this.dataSource = [value, ...this._calculatorService.ingredients];
+      }
+    ));
   }
 
   ngOnDestroy(): void {
-    // this._calculatorService.deleteAllIngr();
     this._sub.unsubscribe();
   }
 

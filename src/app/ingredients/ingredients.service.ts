@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Subject } from "rxjs";
-import { IIngredient } from "src/app/shared/ingredients.model";
+import { IIngredient } from "src/app/ingredients/ingredients.model";
+import { AuthService } from "../auth/auth.service";
 import { CalculatorService } from "../calculator/calculator.service";
 
 @Injectable({
@@ -15,6 +16,7 @@ export class IngredientsService {
 
   constructor(
     private _calculatorService: CalculatorService,
+    private _authService: AuthService,
   ) {}
 
   get ingredients() {
@@ -32,7 +34,7 @@ export class IngredientsService {
   }
 
   public addIngredient(ingr: IIngredient) {
-    const ingrForSave = { ...ingr, id: this._randomString() } ;
+    const ingrForSave = { ...ingr, id: this._randomString(), authorID: this._authService.user.getValue().id } ;
 
     this._ingredients.push(ingrForSave);
     this.isIngredientChange.next(this.ingredients);

@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { IIngredient } from 'src/app/shared/ingredients.model';
-import { NewIngredientComponent } from '../shared/components/new-ingredient/new-ingredient.component';
+import { IIngredient } from 'src/app/ingredients/ingredients.model';
+import { NewIngredientComponent } from './new-ingredient/new-ingredient.component';
 import { validateNo } from '../shared/help-function';
 import { IngredientsService } from './ingredients.service';
 import { IngredientStoreService } from './ingredients.store.service';
+import { AuthService } from '../auth/auth.service';
+import { User } from '../auth/user.model';
 
 @Component({
   selector: 'app-ingredients',
@@ -19,12 +21,15 @@ export class IngredientsComponent implements OnInit, OnDestroy {
   public name!: string;
   public isEditMode!: boolean;
   public editIngrId: string | null = null;
+
+  private _isAuthorized!: boolean;
   private _sub!: Subscription;
 
   constructor(
     private _ingrService: IngredientsService,
     private _ingredientStoreService: IngredientStoreService,
     public dialog: MatDialog,
+    private _AuthService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +40,10 @@ export class IngredientsComponent implements OnInit, OnDestroy {
         this.isEditMode = value
       }
     )
+
+    this._sub.add(this._AuthService.user.subscribe(
+      (user: User) => this._isAuthorized = !!user
+    ));
 
     this._sub.add(this._ingrService.isEditIngr.subscribe(
       (value) => {
@@ -75,6 +84,7 @@ export class IngredientsComponent implements OnInit, OnDestroy {
   }
 
   public handleDeleteIngredient(ingr: IIngredient): void {
+
     this._ingrService.deleteIngredient(ingr);
     this._ingredientStoreService.storeIngredients();
   }
@@ -86,7 +96,7 @@ export class IngredientsComponent implements OnInit, OnDestroy {
   public openDialog(): void {
     const dialogRef = this.dialog.open(NewIngredientComponent, {
       width: '250px',
-      data: { checkbox: false, calculator: false },
+      data: { checkbox: false, calculator: false, isAuth: this._isAuthorized },
     });
 
     dialogRef.afterClosed().subscribe(result => {
