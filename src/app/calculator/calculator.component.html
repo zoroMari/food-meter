@@ -7,7 +7,7 @@
     Create new ingredient
   </button>
 
-  <button mat-raised-button (click)="openDialogSelectIngr()">
+  <button mat-raised-button (click)="openDialogSelectIngr()" *ngIf="isAuthorized">
     Select from ingredients
   </button>
 
