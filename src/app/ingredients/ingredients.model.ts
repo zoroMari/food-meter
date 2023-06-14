@@ -7,6 +7,7 @@ export interface IIngredient {
   carbon: number;
   fat: number;
   id: string;
+  authorID: string;
 }
 export interface IIngredientTotal {
   name: string;

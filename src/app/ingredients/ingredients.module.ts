@@ -4,7 +4,7 @@ import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { AuthGuard } from "../auth/auth.guard";
 import { MaterialModule } from "../material.module";
-import { NewIngredientsModule } from "../shared/components/new-ingredient/new-ingredient.module";
+import { NewIngredientsModule } from "./new-ingredient/new-ingredient.module";
 import { IngredientsComponent } from "./ingredients.component";
 
 @NgModule({

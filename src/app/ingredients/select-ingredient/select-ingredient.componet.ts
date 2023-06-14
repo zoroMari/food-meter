@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 import {MatDialogRef} from '@angular/material/dialog';
 import { CalculatorService } from "src/app/calculator/calculator.service";
 import { IngredientsService } from "src/app/ingredients/ingredients.service";
-import { IIngredient } from "../../ingredients.model";
+import { IIngredient } from "../ingredients.model";
 
 @Component({
   selector: 'app-select-ingredient',
@@ -24,10 +24,6 @@ export class SelectIngredientComponent implements OnInit {
 
   ngOnInit(): void {
     this.ingrList = this._ingredientsService.ingredients;
-
-    // this._ingredientsService.isIngredientChange.subscribe(
-    //   (value: IIngredient[]) => value
-    // )
   }
 
   public onNoClick(): void {
