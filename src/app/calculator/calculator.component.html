@@ -47,7 +47,7 @@
           min="1"
           [readonly]="element.name === 'TOTAL:'"
           #gramOfElement="ngModel"
-          [(ngModel)]='element.gram'
+          [(ngModel)]='element.actualWeight'
           (change)="handleChangeWeight(element)"
         >
       </mat-form-field>

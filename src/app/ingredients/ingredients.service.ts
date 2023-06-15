@@ -34,7 +34,7 @@ export class IngredientsService {
   }
 
   public addIngredient(ingr: IIngredient) {
-    const ingrForSave = { ...ingr, id: this._randomString(), authorID: this._authService.user.getValue().id } ;
+    const ingrForSave = { ...ingr, authorID: this._authService.user.getValue().id } ;
 
     this._ingredients.push(ingrForSave);
     this.isIngredientChange.next(this.ingredients);
@@ -47,9 +47,10 @@ export class IngredientsService {
 
     if (id === -1) return;
     else {
-      this._ingredients[id] = newIngr;
+      const ingrForSave = this.fixedValueInIngr(newIngr);
+      this._ingredients[id] = ingrForSave;
       this.isIngredientChange.next(this.ingredients);
-      this._calculatorService.updateIngredients(this.ingredients, this._calculatorService.ingredients);
+      this._calculatorService.updateIngredientsPer100Info(ingrForSave, this._calculatorService.ingredients);
     }
   }
 
@@ -66,10 +67,19 @@ export class IngredientsService {
     this.isIngredientChange.next(this.ingredients);
   }
 
-  private _randomString() {
-    return String(
-      Date.now().toString(32) +
-        Math.random().toString(16)
-    ).replace(/\./g, '')
+  public fixedValueInIngr(ingr: IIngredient) {
+    const id = ingr.id ? ingr.id : null;
+    const author = ingr.authorID ? ingr.authorID : null;
+
+    return {
+      name: ingr.name,
+      gram: ingr.gram,
+      ccal: +ingr.ccal.toFixed(2),
+      protein: +ingr.protein.toFixed(2),
+      carbon: +ingr.carbon.toFixed(2),
+      fat: +ingr.fat.toFixed(2),
+      id: id,
+      authorID: author,
+    }
   }
 }

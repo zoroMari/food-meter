@@ -5,6 +5,7 @@ import { IngredientStoreService } from "src/app/ingredients/ingredients.store.se
 import { IIngredient } from "src/app/ingredients/ingredients.model";
 import { CalculatorService } from "../../calculator/calculator.service";
 import { IngredientsService } from "../ingredients.service";
+import { randomString } from "src/app/shared/help-function";
 
 interface IData extends IIngredient {
   saveIngr: boolean;
@@ -36,11 +37,22 @@ export class NewIngredientComponent implements OnInit {
   }
 
   public handleSaveIngredient(): void {
-    if (this.data.calculator) this._calculatorService.addIngredient(this.form.value);
+    const ingrForSaving: IIngredient = {
+      name: this.form.controls['name'].value,
+      gram: this.form.controls['gram'].value,
+      ccal: +Number(this.form.controls['ccal'].value).toFixed(2),
+      protein: +Number(this.form.controls['protein'].value).toFixed(2),
+      carbon: +Number(this.form.controls['carbon'].value).toFixed(2),
+      fat: +Number(this.form.controls['fat'].value).toFixed(2),
+      id: randomString(),
+      authorID: null,
+    }
+
+    if (this.data.calculator) this._calculatorService.addIngredient(ingrForSaving);
 
     if (!this.addIngr.value) return;
     else {
-      this._ingrService.addIngredient(this.form.value);
+      this._ingrService.addIngredient(ingrForSaving);
       this._ingrStoreService.storeIngredients();
     }
   }
@@ -49,10 +61,11 @@ export class NewIngredientComponent implements OnInit {
     this.form = new FormGroup({
       name: new FormControl('', Validators.required),
       gram: new FormControl('100', [Validators.required]),
-      ccal: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
-      protein: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
-      carbon: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
-      fat: new FormControl('', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]),
+      ccal: new FormControl('', [Validators.required]),
+      protein: new FormControl('', [Validators.required]),
+      carbon: new FormControl('', [Validators.required]),
+      fat: new FormControl('', [Validators.required]),
     })
   }
 }
+

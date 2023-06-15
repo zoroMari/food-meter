@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
-import { IIngredient, IIngredientTotal } from "src/app/ingredients/ingredients.model";
+import { IIngredient, IIngredientInCalc, IIngredientTotal } from "src/app/ingredients/ingredients.model";
 import { AuthService } from "../auth/auth.service";
 import { User } from "../auth/user.model";
 import { IngredientStoreService } from "../ingredients/ingredients.store.service";
@@ -16,7 +16,7 @@ import { CalculatorService } from "./calculator.service";
 })
 export class CalculatorComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['name', 'gram', 'ccal', 'protein', 'carbon', 'fat', 'delete'];
-  public dataSource!: IIngredient[] | IIngredientTotal[];
+  public dataSource!: IIngredientInCalc[] | IIngredientTotal[];
   public isAuthorized!: boolean;
   private _sub!: Subscription;
 
@@ -43,7 +43,7 @@ export class CalculatorComponent implements OnInit, OnDestroy {
       }
     );
 
-    this._calculatorService.changeTotalData();
+    this._calculatorService.changeTotalData(this._calculatorService.ingredients);
 
     this._sub.add(this._calculatorService.total.subscribe(
       (value) => {
@@ -76,11 +76,11 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     });
   }
 
-  public handleChangeWeight(ingredient: IIngredient): void {
+  public handleChangeWeight(ingredient: IIngredientInCalc): void {
     this._calculatorService.changeIngredientData(ingredient);
   }
 
-  public handleDelIngr(ing: IIngredient): void {
+  public handleDelIngr(ing: IIngredientInCalc): void {
     this._calculatorService.deleteIngr(ing);
   }
 
@@ -88,19 +88,17 @@ export class CalculatorComponent implements OnInit, OnDestroy {
     this._calculatorService.deleteAllIngr();
   }
 
-  public getTooltipInfo(ingr: IIngredient): string {
-    const ingrPer100: IIngredient | undefined = this._calculatorService.ingredientsPer100.find((item) => item.name === ingr.name);
-    if (!ingrPer100) return this._tooltipTemplate(ingr);
-    return this._tooltipTemplate(ingrPer100);
+  public getTooltipInfo(ingr: IIngredientInCalc): string {
+    return this._tooltipTemplate(ingr);
   }
 
-  private _tooltipTemplate(ingr: IIngredient) {
+  private _tooltipTemplate(ingr: IIngredientInCalc) {
     return `
     ${ingr.name} (100 gr):
-    ${ingr.ccal} ccal,
-    ${ingr.protein} pr,
-    ${ingr.carbon} carb,
-    ${ingr.fat} fat
+    ${ingr.ccalPer100} ccal,
+    ${ingr.proteinPer100} pr,
+    ${ingr.carbonPer100} carb,
+    ${ingr.fatPer100} fat
   `
   }
 
