@@ -20,6 +20,7 @@ export interface AuthResponceData {
 })
 export class AuthService {
   public user = new BehaviorSubject<User | null>(null);
+  private _tokenExpirationTimer: any;
 
   constructor(
     private _http: HttpClient,
@@ -37,7 +38,7 @@ export class AuthService {
     ).pipe(
       catchError(this._handleError),
       tap(resData => {
-        this._handleAuthentication(resData.email, resData.localId, resData.idToken);
+        this._handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
       })
     );
   }
@@ -53,7 +54,7 @@ export class AuthService {
     ).pipe(
         catchError(this._handleError),
         tap(resData => {
-          this._handleAuthentication(resData.email, resData.localId, resData.idToken);
+          this._handleAuthentication(resData.email, resData.localId, resData.idToken, +resData.expiresIn);
         })
       );
   }
@@ -66,9 +67,14 @@ export class AuthService {
       userData.email,
       userData.id,
       userData._token,
+      new Date(userData._tokenExpirationDate),
     )
     if (loadedUser.token) {
       this.user.next(loadedUser);
+      const expirationDate =
+        new Date(userData._tokenExpirationDate).getTime() -
+        new Date().getTime();
+      this.autoLogout(expirationDate);
     }
   }
 
@@ -76,19 +82,34 @@ export class AuthService {
     this.user.next(null);
     this._router.navigate(['/auth']);
     localStorage.removeItem('foodMetterUserData');
+    if (this._tokenExpirationTimer) {
+      clearTimeout(this._tokenExpirationTimer);
+    }
+    this._tokenExpirationTimer = null;
+  }
+
+  public autoLogout(expirationDuration: number) {
+    this._tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
   }
 
   private _handleAuthentication(
     email: string,
     userId: string,
-    token: string
+    token: string,
+    expiresIn: number,
   ) {
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 1000);
+
     const user: User = new User(
       email,
       userId,
       token,
+      expirationDate
     );
     this.user.next(user);
+    this.autoLogout(expiresIn * 1000);
     localStorage.setItem('foodMetterUserData', JSON.stringify(user));
   }
 
