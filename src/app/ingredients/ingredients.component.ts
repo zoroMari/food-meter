@@ -76,6 +76,7 @@ export class IngredientsComponent implements OnInit, OnDestroy {
   public handleSaveChanges(ingr: IIngredient): void {
     this._ingrService.saveChangedIngredient(ingr);
     this._ingredientStoreService.storeIngredients();
+    this._ingredientStoreService.fetchIngredients();
   }
 
   public handleCancelChanges(): void {
@@ -87,6 +88,7 @@ export class IngredientsComponent implements OnInit, OnDestroy {
 
     this._ingrService.deleteIngredient(ingr);
     this._ingredientStoreService.storeIngredients();
+    this._ingredientStoreService.fetchIngredients();
   }
 
   public handleValidateNumber(event: any) {

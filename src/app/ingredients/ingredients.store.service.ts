@@ -32,7 +32,7 @@ export class IngredientStoreService {
       tap((ingr) => {
         if (ingr) {
           this._ingredientsService.setIngredients(ingr);
-          this._calculatorService.ingredientsPer100 = ingr;
+          // this._calculatorService.ingredientsPer100 = ingr;
         }
         else return;
       })

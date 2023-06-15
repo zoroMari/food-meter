@@ -5,6 +5,7 @@ import { IngredientStoreService } from "src/app/ingredients/ingredients.store.se
 import { IIngredient } from "src/app/ingredients/ingredients.model";
 import { CalculatorService } from "../../calculator/calculator.service";
 import { IngredientsService } from "../ingredients.service";
+import { randomString } from "src/app/shared/help-function";
 
 interface IData extends IIngredient {
   saveIngr: boolean;
@@ -43,7 +44,7 @@ export class NewIngredientComponent implements OnInit {
       protein: +Number(this.form.controls['protein'].value).toFixed(2),
       carbon: +Number(this.form.controls['carbon'].value).toFixed(2),
       fat: +Number(this.form.controls['fat'].value).toFixed(2),
-      id: null,
+      id: randomString(),
       authorID: null,
     }
 

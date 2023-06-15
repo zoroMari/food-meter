@@ -34,7 +34,7 @@ export class IngredientsService {
   }
 
   public addIngredient(ingr: IIngredient) {
-    const ingrForSave = { ...ingr, id: this._randomString(), authorID: this._authService.user.getValue().id } ;
+    const ingrForSave = { ...ingr, authorID: this._authService.user.getValue().id } ;
 
     this._ingredients.push(ingrForSave);
     this.isIngredientChange.next(this.ingredients);
@@ -50,7 +50,7 @@ export class IngredientsService {
       const ingrForSave = this.fixedValueInIngr(newIngr);
       this._ingredients[id] = ingrForSave;
       this.isIngredientChange.next(this.ingredients);
-      this._calculatorService.updateIngredients(this.ingredients, this._calculatorService.ingredients);
+      this._calculatorService.updateIngredientsPer100Info(ingrForSave, this._calculatorService.ingredients);
     }
   }
 
@@ -81,12 +81,5 @@ export class IngredientsService {
       id: id,
       authorID: author,
     }
-  }
-
-  private _randomString() {
-    return String(
-      Date.now().toString(32) +
-        Math.random().toString(16)
-    ).replace(/\./g, '')
   }
 }
