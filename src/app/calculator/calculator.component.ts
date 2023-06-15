@@ -32,9 +32,11 @@ export class CalculatorComponent implements OnInit, OnDestroy {
       (user: User) => this.isAuthorized = !!user
     );
 
-    this._sub.add(this._ingredientStoreService.fetchIngredients().subscribe(
-      (value) => {}
-    ));
+    if (this.isAuthorized) {
+      this._sub.add(this._ingredientStoreService.fetchIngredients().subscribe(
+        (value) => {}
+      ));
+    }
 
     this._calculatorService.ingredientsChange.subscribe(
       (value) => {

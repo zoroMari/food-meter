@@ -6,6 +6,7 @@ import { IIngredient } from "src/app/ingredients/ingredients.model";
 import { CalculatorService } from "../../calculator/calculator.service";
 import { IngredientsService } from "../ingredients.service";
 import { randomString } from "src/app/shared/help-function";
+import { AuthService } from "src/app/auth/auth.service";
 
 interface IData extends IIngredient {
   saveIngr: boolean;
@@ -24,6 +25,7 @@ export class NewIngredientComponent implements OnInit {
     private _ingrService: IngredientsService,
     private _ingrStoreService: IngredientStoreService,
     private _calculatorService: CalculatorService,
+    private _authService: AuthService,
     public dialogRef: MatDialogRef<NewIngredientComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { checkbox: boolean, calculator: boolean, isAuth: boolean },
   ) {}
@@ -50,7 +52,7 @@ export class NewIngredientComponent implements OnInit {
 
     if (this.data.calculator) this._calculatorService.addIngredient(ingrForSaving);
 
-    if (!this.addIngr.value) return;
+    if (!this.addIngr.value || !this._authService.user.getValue()) return;
     else {
       this._ingrService.addIngredient(ingrForSaving);
       this._ingrStoreService.storeIngredients();

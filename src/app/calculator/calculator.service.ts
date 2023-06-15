@@ -18,7 +18,6 @@ export class CalculatorService {
 
   public addIngredient(ingr: IIngredient) {
     this.ingredients.push(this.transformIntoIngrForCalc(ingr, null));
-    console.log('ingr >>>', ingr);
     this.ingredientsChange.next(this.ingredients);
     this.changeTotalData(this.ingredients);
   }
