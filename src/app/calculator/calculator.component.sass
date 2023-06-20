@@ -25,6 +25,7 @@
   table
     width: 98%
     margin-top: 32px
+    table-layout: fixed
 
     .nameCell
       display: flex
@@ -40,34 +41,20 @@
       font-weight: 700
       background-color: rgba(103, 58, 183, 0.08)
 
-    ::ng-deep .mat-column-gram
-      width: 180px !important
+    td,
+    th
+      overflow: hidden
       padding-right: 16px !important
 
+    th:nth-of-type(2)
+      padding-left: 18px !important
+
+    td:not(:first-of-type):not(:last-of-type),
+    th:not(:first-of-type):not(:last-of-type)
+      width: 14% !important
+
     ::ng-deep .mat-column-delete
-      width: 32px !important
-
-    // .mat-column-gram
-    //   word-wrap: break-word !important
-    //   white-space: unset !important
-    //   flex: 0 0 28% !important
-    //   width: 28% !important
-    //   overflow-wrap: break-word
-    //   word-wrap: break-word
-
-    //   // word-break: break-word
-    //   // -ms-hyphens: auto
-    //   // -moz-hyphens: auto
-    //   // -webkit-hyphens: auto
-    //   // hyphens: auto
-
-    // .mat-column-delete
-    //     word-wrap: break-word !important
-    //     white-space: unset !important
-    //     flex: 0 0 5% !important
-    //     width: 5% !important
-    //     overflow-wrap: break-word
-    //     word-wrap: break-word
+      width: 60px !important
 
     ::ng-deep .mat-form-field-wrapper
       padding: 4px
@@ -75,5 +62,5 @@
 
       ::ng-deep .mat-form-field-infix
         width: 100% !important
-        padding: 4px
-        margin: 2px 0px
+        padding: 12px 8px 8px 8px
+        border: 0

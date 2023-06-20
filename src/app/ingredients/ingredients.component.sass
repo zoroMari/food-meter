@@ -23,6 +23,12 @@
     width: 98%
     margin-top: 32px
 
+    th:not(:nth-of-type(2))
+      padding-left: 20px !important
+
+    th:first-of-type
+      padding-left: 46px !important
+
     ::ng-deep .mat-column-name
       width: 240px !important
 
@@ -41,17 +47,13 @@
     ::ng-deep .mat-column-delete
       width: 32px !important
 
-    ::ng-deep .mat-column-gram
-      padding-top: 8px !important
-
     ::ng-deep .mat-form-field-wrapper
       padding: 4px
-      margin: 2px
 
       ::ng-deep .mat-form-field-infix
         width: 100% !important
-        padding: 4px
-        margin: 2px 0px
+        padding: 12px 8px 8px 8px
+        border: 0
 
     .read
       ::ng-deep .mat-form-field-outline
