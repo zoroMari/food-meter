@@ -11,6 +11,7 @@ export interface IIngredient {
 }
 
 export interface IIngredientInCalc {
+  index: number;
   name: string;
   id: string;
   authorID: string;

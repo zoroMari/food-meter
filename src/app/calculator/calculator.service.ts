@@ -17,38 +17,44 @@ export class CalculatorService {
   ) {}
 
   public addIngredient(ingr: IIngredient) {
-    this.ingredients.push(this.transformIntoIngrForCalc(ingr, null));
+    const index = this.ingredients.length;
+    this.ingredients.push(this.transformIntoIngrForCalc(ingr, index, null));
     this.ingredientsChange.next(this.ingredients);
     this.changeTotalData(this.ingredients);
   }
 
   public addIngredients(ingrs: IIngredient[]) {
-    ingrs.forEach((item: IIngredient) => {
-      this.ingredients.push(this.transformIntoIngrForCalc(item, null))
+    let index = this.ingredients.length;
 
+    ingrs.forEach((item: IIngredient) => {
+      this.ingredients.push(this.transformIntoIngrForCalc(item, index, null))
+      index++
     });
     this.ingredientsChange.next(this.ingredients);
     this.changeTotalData(this.ingredients);
   }
 
   public updateIngredientsPer100Info(newIngr: IIngredient, ingrs: IIngredientInCalc[]) {
-    const index = ingrs.findIndex((item) => item.id === newIngr.id);
+    const res = ingrs.map((item) => {
+      if (item.id === newIngr.id) {
 
-    if(index < 0) return;
-    else {
-      ingrs[index].ccalPer100 = newIngr.ccal;
-      ingrs[index].proteinPer100 = newIngr.protein;
-      ingrs[index].carbonPer100 = newIngr.carbon;
-      ingrs[index].fatPer100 = newIngr.fat;
+        return {
+          ...item,
+          ccalPer100: newIngr.ccal,
+          proteinPer100: newIngr.protein,
+          carbonPer100: newIngr.carbon,
+          fatPer100: newIngr.fat,
+        }
+      } else return item;
+    });
 
-      this.changeIngredientData(ingrs[index]);
 
-      this.ingredientsChange.next(this.ingredients);
-    }
+    this.ingredients = res;
+    this.changeAllIngredientsData(this.ingredients);
   }
 
   public changeIngredientData(ingr: IIngredientInCalc) {
-    const ind = this.ingredients.findIndex((item) => item.id === ingr.id);
+    const ind = this.ingredients.findIndex((item) => item.id === ingr.id && item.index === ingr.index);
 
     if (ind === -1) return;
     else {
@@ -62,6 +68,22 @@ export class CalculatorService {
       this.ingredientsChange.next(this.ingredients);
     }
 
+    this.changeTotalData(this.ingredients);
+  }
+
+  public changeAllIngredientsData(ingr: IIngredientInCalc[]) {
+    const res = ingr.map((item) => {
+      return {
+        ...item,
+        ccal: +(item.ccalPer100 * item.actualWeight / 100).toFixed(2),
+        protein: +(item.proteinPer100 * item.actualWeight / 100).toFixed(2),
+        carbon: +(item.carbonPer100 * item.actualWeight / 100).toFixed(2),
+        fat: +(item.fatPer100 * item.actualWeight / 100).toFixed(2),
+      }
+    })
+
+    this.ingredients = res;
+    this.ingredientsChange.next(this.ingredients);
     this.changeTotalData(this.ingredients);
   }
 
@@ -94,10 +116,11 @@ export class CalculatorService {
     )
   }
 
-  public transformIntoIngrForCalc(ingr: IIngredient, actualWeight: number): IIngredientInCalc {
+  public transformIntoIngrForCalc(ingr: IIngredient, ingrIndex: number, actualWeight: number): IIngredientInCalc {
     const weight = actualWeight ? actualWeight : 100;
 
     return {
+      index: ingrIndex,
       name: ingr.name,
       id: ingr.id,
       authorID: ingr.authorID,
